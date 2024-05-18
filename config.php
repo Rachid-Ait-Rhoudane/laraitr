@@ -2,7 +2,7 @@
 
 return [
 
-    //database configuration
+    //database configuration 
     'database' => [
         'host' => 'localhost',
         'port' => '3306',
