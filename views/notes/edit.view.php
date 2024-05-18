@@ -18,8 +18,8 @@
             <div class="flex flex-col gap-2 capitalize">
                 <label class="text-xl font-bold text-blue-800" for="body">body</label>
                 <textarea class="p-2 focus:outline-none rounded-md placeholder:capitalize h-40" name="body" id="body" placeholder="create a new note here"><?= $oldValue ?? $note['body'] ?></textarea>
-                <?php if(isset($errors['body'])): ?>
-                    <span class="text-xs text-red-500"><?= $errors['body'] ?></span>
+                <?php if(error_exists('body')): ?>
+                    <span class="text-xs text-red-500"><?= error('body') ?></span>
                 <?php endif; ?>
             </div>
 
