@@ -1,6 +1,7 @@
 <?php
 
 use http\Controllers\HomeController;
+use http\Controllers\SessionController;
 
 $router->get('/', [HomeController::class, 'index']);
 
@@ -12,11 +13,11 @@ $router->get('/register', 'registration/create.php')->only('guest');
 
 $router->post('/register', 'registration/store.php');
 
-$router->get('/login', 'session/create.php');
+$router->get('/login', [SessionController::class, 'create']);
 
-$router->post('/login', 'session/store.php');
+$router->post('/login', [SessionController::class, 'store']);
 
-$router->delete('/logout', 'session/destroy.php');
+$router->delete('/logout', [SessionController::class, 'destroy']);
 
 $router->get('/notes', 'notes/index.php')->only('auth');
 
