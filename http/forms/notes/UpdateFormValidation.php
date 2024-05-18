@@ -7,7 +7,7 @@ use core\validation\FormValidation;
 
 class UpdateFormValidation extends FormValidation {
 
-    public function apply() {
+    protected function apply() {
 
         if(!Validator::string($this->attributes['body'], 25, 255)) {
             $this->errors['body'] = 'The body field must be between 25 and 255 characters';
