@@ -1,5 +1,13 @@
 <?php
 
+use http\Controllers\HomeController;
+
+$router->get('/', [HomeController::class, 'index']);
+
+$router->get('/about', [HomeController::class, 'about']);
+
+$router->get('/contact', [HomeController::class, 'contact']);
+
 $router->get('/register', 'registration/create.php')->only('guest');
 
 $router->post('/register', 'registration/store.php');
@@ -9,12 +17,6 @@ $router->get('/login', 'session/create.php');
 $router->post('/login', 'session/store.php');
 
 $router->delete('/logout', 'session/destroy.php');
-
-$router->get('/', 'index.php');
-
-$router->get('/about', 'about.php');
-
-$router->get('/contact', 'contact.php');
 
 $router->get('/notes', 'notes/index.php')->only('auth');
 

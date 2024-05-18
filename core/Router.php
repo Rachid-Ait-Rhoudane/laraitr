@@ -42,11 +42,20 @@ class Router {
     public function route($uri, $method) {
 
         foreach($this->routes as $route) {
+
             if($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
+
                 Middleware::resolve($route['middleware'] ?? false);
-                return require_once base_path('http/controllers/' . $route['controller']);
+
+                if(is_callable($route['controller'])) {
+
+                    return call_user_func($route['controller']);
+                }
+
+                return call_user_func([new $route['controller'][0], $route['controller'][1]]);
             }
         }
+        
         $this->abort();
     }
 
