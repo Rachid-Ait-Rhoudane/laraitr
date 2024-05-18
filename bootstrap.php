@@ -8,5 +8,5 @@ App::setContainer();
 App::bind(Database::class, function() {
 
     $config = require_once base_path("config.php");
-    return new Database($config['database']);
+    return Database::create($config['database']);
 });

@@ -5,15 +5,28 @@ use PDO;
 
 class Database {
 
-    public $connection;
-    public $statement;
+    private static $db = null;
+    private $connection;
+    private $statement;
 
-    public function __construct($config, $username = 'root', $password = '') {
+    private function __construct($config, $username = 'root', $password = '') {
 
         $dsn = 'mysql:'.http_build_query(data: $config, arg_separator: ';');
         $this->connection = new PDO($dsn, $username, $password, [
             PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
         ]);
+    }
+
+    public static function create($config, $username = 'root', $password = '') {
+
+        if(static::$db) {
+
+            return static::$db;
+        }
+
+        static::$db = new static($config, $username = 'root', $password = '');
+
+        return static::$db;
     }
 
     public function query($query, $params = []) {

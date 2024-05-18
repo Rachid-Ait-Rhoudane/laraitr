@@ -13,23 +13,23 @@
                 login
             </h1>
 
-            <?php if(isset($errors['login_error'])): ?>
-                <span class="block text-xs text-red-500 text-center"><?= $errors['login_error'] ?></span>
+            <?php if(error_exists('login_error')): ?>
+                <span class="block text-xs text-red-500 text-center"><?= error('login_error') ?></span>
             <?php endif; ?>
 
             <div class="flex flex-col gap-2 capitalize">
                 <label class="font-bold text-blue-800 capitalize" for="email">email</label>
                 <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="email" id="email" placeholder="enter your email : ******@example.com" value="<?= old('email') ?>" />
-                <?php if(isset($errors['email'])): ?>
-                    <span class="block text-xs text-red-500"><?= $errors['email'] ?></span>
+                <?php if(error_exists('email')): ?>
+                    <span class="block text-xs text-red-500"><?= error('email') ?></span>
                 <?php endif; ?>
             </div>
 
             <div class="flex flex-col gap-2 capitalize">
                 <label class="font-bold text-blue-800 capitalize" for="password">password</label>
                 <input type="password" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="password" id="password" placeholder="enter your password : *********" />
-                <?php if(isset($errors['password'])): ?>
-                    <span class="block text-xs text-red-500"><?= $errors['password'] ?></span>
+                <?php if(error_exists('password')): ?>
+                    <span class="block text-xs text-red-500"><?= error('password') ?></span>
                 <?php endif; ?>
             </div>
 

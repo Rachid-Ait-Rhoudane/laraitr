@@ -2,6 +2,7 @@
 
 use http\Controllers\HomeController;
 use http\Controllers\SessionController;
+use http\Controllers\RegistrationController;
 
 $router->get('/', [HomeController::class, 'index']);
 
@@ -9,9 +10,9 @@ $router->get('/about', [HomeController::class, 'about']);
 
 $router->get('/contact', [HomeController::class, 'contact']);
 
-$router->get('/register', 'registration/create.php')->only('guest');
+$router->get('/register', [RegistrationController::class, 'create'])->only('guest');
 
-$router->post('/register', 'registration/store.php');
+$router->post('/register', [RegistrationController::class, 'store']);
 
 $router->get('/login', [SessionController::class, 'create']);
 

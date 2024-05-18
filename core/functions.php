@@ -53,3 +53,13 @@ function old($key, $default = '') {
 
     return Session::get('oldValues')[$key] ?? $default;
 }
+
+function error_exists($key) {
+
+    return Session::get('errors')[$key] ?? false;
+}
+
+function error($key, $default = '') {
+
+    return Session::get('errors')[$key] ?? $default;
+}

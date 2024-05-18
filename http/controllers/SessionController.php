@@ -10,11 +10,8 @@ class SessionController {
 
     public function create() {
 
-        $errors = Session::get('errors') ?? [];
-
         return view('session/create', [
             'heading' => 'login to your account',
-            'errors' => $errors
         ]);
     }
 

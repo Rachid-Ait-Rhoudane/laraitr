@@ -25,4 +25,19 @@ class Validator {
 
         return $pwd_1 === $pwd_2;
     }
+
+    public static function unique($table, $column, $value) {
+
+        $db = App::resolve(Database::class);
+
+        $result = $db->query("select * from {$table} where {$column} = :value", [
+            ':value' => $value
+        ])->find();
+
+        if($result) {
+           return false; 
+        }
+
+        return true;
+    }
 }

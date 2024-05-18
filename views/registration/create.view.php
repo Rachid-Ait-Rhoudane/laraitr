@@ -13,49 +13,49 @@
 
             <div class="flex flex-col gap-2 capitalize">
                 <label class="font-bold text-blue-800 capitalize" for="firstname">first name</label>
-                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="firstname" id="firstname" placeholder="enter your first name" value="<?= $oldValues['firstname'] ?? ''?>" />
-                <?php if(isset($errors['firstname'])): ?>
-                    <span class="text-xs text-red-500"><?= $errors['firstname'] ?></span>
+                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="firstname" id="firstname" placeholder="enter your first name" value="<?= old('firstname') ?>" />
+                <?php if(error_exists('firstname')): ?>
+                    <span class="text-xs text-red-500"><?= error('firstname') ?></span>
                 <?php endif; ?>
             </div>
 
             <div class="flex flex-col gap-2 capitalize">
                 <label class="font-bold text-blue-800 capitalize" for="lastname">last name</label>
-                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="lastname" id="lastname" placeholder="enter your last name" value="<?= $oldValues['lastname'] ?? ''?>" />
-                <?php if(isset($errors['lastname'])): ?>
-                    <span class="text-xs text-red-500"><?= $errors['lastname'] ?></span>
+                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="lastname" id="lastname" placeholder="enter your last name" value="<?= old('lastname') ?>" />
+                <?php if(error_exists('lastname')): ?>
+                    <span class="text-xs text-red-500"><?= error('lastname') ?></span>
                 <?php endif; ?>
             </div>
 
             <div class="flex flex-col gap-2 capitalize">
                 <label class="font-bold text-blue-800 capitalize" for="username">username</label>
-                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="username" id="username" placeholder="enter your username" value="<?= $oldValues['username'] ?? ''?>" />
-                <?php if(isset($errors['username'])): ?>
-                    <span class="text-xs text-red-500"><?= $errors['username'] ?></span>
+                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="username" id="username" placeholder="enter your username" value="<?= old('username') ?>" />
+                <?php if(error_exists('username')): ?>
+                    <span class="text-xs text-red-500"><?= error('username') ?></span>
                 <?php endif; ?>
             </div>
 
             <div class="flex flex-col gap-2 capitalize">
                 <label class="font-bold text-blue-800 capitalize" for="email">email</label>
-                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="email" id="email" placeholder="enter your email : ******@example.com" value="<?= $oldValues['email'] ?? ''?>" />
-                <?php if(isset($errors['email'])): ?>
-                    <span class="text-xs text-red-500"><?= $errors['email'] ?></span>
+                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="email" id="email" placeholder="enter your email : ******@example.com" value="<?= old('email') ?>" />
+                <?php if(error_exists('email')): ?>
+                    <span class="text-xs text-red-500"><?= error('email') ?></span>
                 <?php endif; ?>
             </div>
 
             <div class="flex flex-col gap-2 capitalize">
                 <label class="font-bold text-blue-800 capitalize" for="password">password</label>
-                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="password" id="password" placeholder="enter your password : *********" />
-                <?php if(isset($errors['password'])): ?>
-                    <span class="text-xs text-red-500"><?= $errors['password'] ?></span>
+                <input type="password" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="password" id="password" placeholder="enter your password : *********" />
+                <?php if(error_exists('password')): ?>
+                    <span class="text-xs text-red-500"><?= error('password') ?></span>
                 <?php endif; ?>
             </div>
 
             <div class="flex flex-col gap-2 capitalize">
                 <label class="font-bold text-blue-800 capitalize" for="confirm_password">confitm password</label>
-                <input type="text" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="confirm_password" id="confirm_password" placeholder="confirm your password" />
-                <?php if(isset($errors['confirm_password'])): ?>
-                    <span class="text-xs text-red-500"><?= $errors['confirm_password'] ?></span>
+                <input type="password" class="p-2 focus:outline-none rounded-md placeholder:capitalize" name="confirm_password" id="confirm_password" placeholder="confirm your password" />
+                <?php if(error_exists('confirm_password')): ?>
+                    <span class="text-xs text-red-500"><?= error('confirm_password') ?></span>
                 <?php endif; ?>
             </div>
 
