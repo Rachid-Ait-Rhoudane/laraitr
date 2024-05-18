@@ -1,6 +1,9 @@
 <?php
 
-namespace core;
+namespace core\validation;
+
+use core\App;
+use core\Database;
 
 class Validator {
 

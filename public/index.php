@@ -4,7 +4,7 @@ session_start();
 
 use core\Router;
 use core\Session;
-use core\ValidationException;
+use core\validation\ValidationException;
 
 const BASE_PATH = __DIR__ . "/../";
 

@@ -2,14 +2,12 @@
 
 namespace http\forms;
 
-use core\Validator;
-use core\ValidationException;
+use core\validation\Validator;
+use core\validation\FormValidation;
 
-class RegistrationFormValidation {
-    
-    private $errors = [];
+class RegistrationFormValidation extends FormValidation {
 
-    public function __construct(public array $attributes) {
+    protected function apply() {
 
         if(!Validator::string($this->attributes['firstname'], 3, 255)) {
             $this->errors['firstname'] = 'The firstname field must be at least 3 and no more than 255 characters';
@@ -42,35 +40,5 @@ class RegistrationFormValidation {
         if(!Validator::password_match($this->attributes['password'], $this->attributes['confirm_password'])) {
             $this->errors['confirm_password'] = 'password confirmation failed';
         }
-    }
-
-    public static function validate($attributes) {
-
-       $instance = new static($attributes);
-
-       return $instance->failed() ?  $instance->throw() : $instance;
-    }
-
-    public function throw() {
-
-        return ValidationException::throw($this->getErrors(), $this->attributes);
-    }
-
-    public function failed() {
-
-        return count($this->errors);
-    }
-
-    public function getErrors() {
-
-        return $this->errors;
-
-    }
-
-    public function setError($key, $message) {
-        
-        $this->errors[$key] = $message;
-
-        return $this;
     }
 }

@@ -1,6 +1,6 @@
 <?php
 
-namespace core;
+namespace core\validation;
 
 class ValidationException extends \Exception {
 
@@ -11,6 +11,8 @@ class ValidationException extends \Exception {
     public static function throw($errors, $oldValues) {
 
         $instance = new static;
+
+        // dd($instance);
 
         $instance->errors = $errors;
 
