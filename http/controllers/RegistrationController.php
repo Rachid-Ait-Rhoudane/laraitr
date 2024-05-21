@@ -37,8 +37,8 @@ class RegistrationController {
             ':password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
         ]);
 
-        $user = $db->query('select * from users where email = ?', [
-            'email' => $_POST['email']
+        $user = $db->query('select * from users where email = :email', [
+            ':email' => $_POST['email']
         ])->findOrFail();
 
         (new Authenticator)->login($user);
