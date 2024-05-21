@@ -37,10 +37,11 @@ class RegistrationController {
             ':password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
         ]);
 
-        (new Authenticator)->login([
-            'username' => $_POST['username'],
+        $user = $db->query('select * from users where email = ?', [
             'email' => $_POST['email']
-        ]);
+        ])->findOrFail();
+
+        (new Authenticator)->login($user);
 
         return redirect('/');
     }

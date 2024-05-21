@@ -41,11 +41,11 @@ class Router {
 
     public function route($uri, $method) {
 
-        if(array_key_exists($uri, $this->routes)) {
+        if(array_key_exists($method . "_" . $uri, $this->routes)) {
 
-            if($this->routes[$uri]['method'] === strtoupper($method)) {
+            if($this->routes[$method . "_" . $uri]['method'] === strtoupper($method)) {
 
-                return $this->resolve($this->routes[$uri]);
+                return $this->resolve($this->routes[$method . "_" . $uri]);
             }
         }
 
@@ -53,9 +53,9 @@ class Router {
 
             if(count($route['params'])) {
 
-                if(preg_match($path, $uri) && $route['method'] === strtoupper($method)) {
+                if(preg_match(explode("_", $path)[1], $uri) && $route['method'] === strtoupper($method)) {
     
-                    $paramsValues = $this->extract_values_from_uri($path, $uri, $route['params']);
+                    $paramsValues = $this->extract_values_from_uri(explode("_", $path)[1], $uri, $route['params']);
 
                     return $this->resolve($route ,$paramsValues);
                 }
@@ -80,7 +80,7 @@ class Router {
             $uri = "#^" . preg_replace($dynamiqueRouteRegex, "([^/\s])+", $uri) . "$#i" ;
         }        
 
-        $this->routes[$uri] = [
+        $this->routes[$method . "_" . $uri] = [
             'controller' => $controller,
             'method' => $method,
             'params' => $params,
