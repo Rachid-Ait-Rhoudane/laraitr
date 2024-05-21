@@ -11,7 +11,7 @@
         <ul class="list-disc space-y-4">
             <?php foreach ($notes as $note) : ?>
                 <li>
-                    <a href="/note?id=<?= $note['id'] ?>" class="text-blue-500 hover:underline">
+                    <a href="/notes/<?= $note['id'] ?>" class="text-blue-500 hover:underline">
                         <?= htmlspecialchars($note['body']) ?>
                     </a>
                 </li>

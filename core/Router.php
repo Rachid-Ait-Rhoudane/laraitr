@@ -43,16 +43,36 @@ class Router {
 
         foreach($this->routes as $route) {
 
-            if($route['uri'] === $uri && $route['method'] === strtoupper($method)) {
+            if(preg_match($route["uri"], $uri) && $route['method'] === strtoupper($method)) {
 
                 Middleware::resolve($route['middleware'] ?? false);
 
-                if(is_callable($route['controller'])) {
+                $paramsValues = [];
 
-                    return call_user_func($route['controller']);
+                if(!empty($route['params'])) {
+
+                    $new_path = str_replace("([^/\s])+", "__PARAMVALUE__", $route['uri']);
+
+                    $explodedPath = explode("/", mb_substr($new_path, 3, strlen($new_path) - 6));
+
+                    $values = explode("/", mb_substr($uri, 1));
+
+                    for($i = 0, $j = 0; $i < count($explodedPath); $i++) {
+
+                        if($explodedPath[$i] === $values[$i]) {
+                            continue;
+                        }
+
+                        $paramsValues[$route['params'][$j++]] = $values[$i];
+                    }
                 }
 
-                return call_user_func([new $route['controller'][0], $route['controller'][1]]);
+                if(is_callable($route['controller'])) {
+
+                    return call_user_func_array($route['controller'], $paramsValues);
+                }
+
+                return call_user_func_array([new $route['controller'][0], $route['controller'][1]], $paramsValues);
             }
         }
         
@@ -61,12 +81,29 @@ class Router {
 
     private function add($uri, $controller, $method) {
 
+        $dynamiqueRouteRegex = "#\{[a-z]([^/\s])*\}#i";
+
+        $params = [];
+
+        if(preg_match_all($dynamiqueRouteRegex, $uri, $matches)) {
+
+            $params = $matches[0];
+
+            for($i = 0; $i < count($params); $i++) {
+                $params[$i] = mb_substr($params[$i], 1, strlen($params[$i]) - 2);
+            }
+
+            $uri = preg_replace($dynamiqueRouteRegex, "([^/\s])+", $uri);
+        }        
+
         $this->routes[] = [
-            'uri' => $uri,
+            'uri' => "#^" . $uri . "$#i",
             'controller' => $controller,
             'method' => $method,
-            'middleware' => null
+            'middleware' => null,
+            'params' => $params
         ];
+
         return $this;
     }
 

@@ -16,7 +16,7 @@
                 <input type="hidden" name="id" value="<?= $note['id'] ?>" />
                 <input class="block w-fit px-3 py-2 rounded-md border border-red-500 text-red-500 text-sm capitalize hover:bg-red-500 hover:text-white cursor-pointer" type="submit" value="delete" />
             </form>
-            <a href = "/notes/edit?id=<?= $note['id'] ?>" class="block w-fit px-3 py-2 rounded-md border border-green-500 text-green-500 text-sm capitalize hover:bg-green-500 hover:text-white">
+            <a href = "/notes/edit/<?= $note['id'] ?>" class="block w-fit px-3 py-2 rounded-md border border-green-500 text-green-500 text-sm capitalize hover:bg-green-500 hover:text-white">
                 edit
             </a>
             <a href = "/notes" class="block w-fit px-3 py-2 rounded-md border border-blue-500 text-blue-500 text-sm capitalize hover:bg-blue-500 hover:text-white">

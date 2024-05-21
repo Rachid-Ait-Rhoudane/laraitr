@@ -23,13 +23,13 @@ $router->delete('/logout', [SessionController::class, 'destroy'])->only('auth');
 
 $router->get('/notes', [NoteController::class, 'index'])->only('auth');
 
-$router->get('/note', [NoteController::class, 'show'])->only('auth');
+$router->get('/notes/{id}', [NoteController::class, 'show'])->only('auth');
 
 $router->get('/notes/create', [NoteController::class, 'create'])->only('auth');
 
 $router->post('/notes/create', [NoteController::class, 'store'])->only('auth');
 
-$router->get('/notes/edit', [NoteController::class, 'edit'])->only('auth');
+$router->get('/notes/edit/{id}', [NoteController::class, 'edit'])->only('auth');
 
 $router->patch('/notes/edit', [NoteController::class, 'update'])->only('auth');
 

@@ -25,12 +25,12 @@ class NoteController {
         ]);
     }
 
-    public function show() {
+    public function show($id) {
 
         $db = App::resolve(Database::class);
 
         $note = $db->query('select * from notes where id = :id', [
-            'id' => $_GET['id']
+            'id' => $id
         ])->findOrFail();
 
         $currentUserID = 1;
@@ -68,9 +68,7 @@ class NoteController {
         return redirect('/notes');
     }
 
-    public function edit() {
-
-        $id = $_GET['id'];
+    public function edit($id) {
 
         $db = App::resolve(Database::class);
 
