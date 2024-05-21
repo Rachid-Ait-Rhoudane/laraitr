@@ -7,7 +7,7 @@
 <main>
     <div class="mx-auto max-w-7xl py-6 sm:px-6 lg:px-8">
     <!-- Your content -->
-        <form class="bg-gray-200 p-4 rounded-md flex flex-col gap-6" action="/notes/create" method="POST">
+        <form class="bg-gray-200 p-4 rounded-md flex flex-col gap-6" action="/notes/store" method="POST">
 
             <h1 class="text-3xl font-bold capitalize text-center text-blue-900">create a new note</h1>
 

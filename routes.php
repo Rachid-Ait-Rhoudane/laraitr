@@ -27,7 +27,7 @@ $router->get('/notes/show/{id}', [NoteController::class, 'show'])->only('auth');
 
 $router->get('/notes/create', [NoteController::class, 'create'])->only('auth');
 
-$router->post('/notes/create', [NoteController::class, 'store'])->only('auth');
+$router->post('/notes/store', [NoteController::class, 'store'])->only('auth');
 
 $router->get('/notes/edit/{id}', [NoteController::class, 'edit'])->only('auth');
 
