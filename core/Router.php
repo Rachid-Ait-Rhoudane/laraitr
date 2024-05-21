@@ -41,38 +41,24 @@ class Router {
 
     public function route($uri, $method) {
 
-        foreach($this->routes as $route) {
+        if(array_key_exists($uri, $this->routes)) {
 
-            if(preg_match($route["uri"], $uri) && $route['method'] === strtoupper($method)) {
+            if($this->routes[$uri]['method'] === strtoupper($method)) {
 
-                Middleware::resolve($route['middleware'] ?? false);
+                return $this->resolve($this->routes[$uri]);
+            }
+        }
 
-                $paramsValues = [];
+        foreach($this->routes as $path => $route) {
 
-                if(!empty($route['params'])) {
+            if(count($route['params'])) {
 
-                    $new_path = str_replace("([^/\s])+", "__PARAMVALUE__", $route['uri']);
+                if(preg_match($path, $uri) && $route['method'] === strtoupper($method)) {
+    
+                    $paramsValues = $this->extract_values_from_uri($path, $uri, $route['params']);
 
-                    $explodedPath = explode("/", mb_substr($new_path, 3, strlen($new_path) - 6));
-
-                    $values = explode("/", mb_substr($uri, 1));
-
-                    for($i = 0, $j = 0; $i < count($explodedPath); $i++) {
-
-                        if($explodedPath[$i] === $values[$i]) {
-                            continue;
-                        }
-
-                        $paramsValues[$route['params'][$j++]] = $values[$i];
-                    }
+                    return $this->resolve($route ,$paramsValues);
                 }
-
-                if(is_callable($route['controller'])) {
-
-                    return call_user_func_array($route['controller'], $paramsValues);
-                }
-
-                return call_user_func_array([new $route['controller'][0], $route['controller'][1]], $paramsValues);
             }
         }
         
@@ -86,25 +72,56 @@ class Router {
         $params = [];
 
         if(preg_match_all($dynamiqueRouteRegex, $uri, $matches)) {
+            
+            $params = array_map(function($param) {
+                return mb_substr($param, 1, strlen($param) - 2);
+            },  $matches[0]);
 
-            $params = $matches[0];
-
-            for($i = 0; $i < count($params); $i++) {
-                $params[$i] = mb_substr($params[$i], 1, strlen($params[$i]) - 2);
-            }
-
-            $uri = preg_replace($dynamiqueRouteRegex, "([^/\s])+", $uri);
+            $uri = "#^" . preg_replace($dynamiqueRouteRegex, "([^/\s])+", $uri) . "$#i" ;
         }        
 
-        $this->routes[] = [
-            'uri' => "#^" . $uri . "$#i",
+        $this->routes[$uri] = [
             'controller' => $controller,
             'method' => $method,
-            'middleware' => null,
-            'params' => $params
+            'params' => $params,
+            'middleware' => null
         ];
 
         return $this;
+    }
+
+    private function resolve($route, $params = []) {
+
+        Middleware::resolve($route['middleware'] ?? false);
+    
+        if(is_callable($route['controller'])) {
+
+            return call_user_func_array($route['controller'], $params);
+        }
+
+        return call_user_func_array([new $route['controller'][0], $route['controller'][1]], $params);
+    }
+
+    private function extract_values_from_uri($dynamiqueRoute, $uri, $routeParams) {
+
+        $paramsValues = [];
+
+        $new_path = str_replace("([^/\s])+", "__PARAMVALUE__", $dynamiqueRoute);
+    
+        $explodedPath = explode("/", mb_substr($new_path, 3, strlen($new_path) - 6));
+
+        $values = explode("/", mb_substr($uri, 1));
+
+        for($i = 0, $j = 0; $i < count($explodedPath); $i++) {
+
+            if($explodedPath[$i] === $values[$i]) {
+                continue;
+            }
+
+            $paramsValues[$routeParams[$j++]] = $values[$i];
+        }
+
+        return  $paramsValues;
     }
 
     public function previousURL() {

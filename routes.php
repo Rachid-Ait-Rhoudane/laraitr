@@ -23,7 +23,7 @@ $router->delete('/logout', [SessionController::class, 'destroy'])->only('auth');
 
 $router->get('/notes', [NoteController::class, 'index'])->only('auth');
 
-$router->get('/notes/show/{id}', [NoteController::class, 'show'])->only('auth');
+$router->get('/notes/{id}', [NoteController::class, 'show'])->only('auth');
 
 $router->get('/notes/create', [NoteController::class, 'create'])->only('auth');
 
