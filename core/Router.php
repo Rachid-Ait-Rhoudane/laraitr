@@ -102,7 +102,7 @@ class Router {
         return call_user_func_array([new $route['controller'][0], $route['controller'][1]], $params);
     }
 
-    private function extract_values_from_uri($dynamiqueRoute, $uri, $routeParams) {
+    private function extract_values_from_uri($dynamiqueRoute, $uri, $dynamiqueRouteParams) {
 
         $paramsValues = [];
 
@@ -118,7 +118,7 @@ class Router {
                 continue;
             }
 
-            $paramsValues[$routeParams[$j++]] = $values[$i];
+            $paramsValues[$dynamiqueRouteParams[$j++]] = $values[$i];
         }
 
         return  $paramsValues;
