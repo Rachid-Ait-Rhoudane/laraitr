@@ -2,8 +2,7 @@
 
 namespace http\controllers;
 
-use core\App;
-use core\Database;
+use models\User;
 use core\Authenticator;
 use http\forms\RegistrationFormValidation;
 
@@ -26,20 +25,14 @@ class RegistrationController {
             'password' => $_POST['password'],
             'confirm_password' => $_POST['confirm_password'],
         ]);
-        
-        $db = App::resolve(Database::class);
 
-        $db->query('insert into users(firstname, lastname, username, email, password) values(:firstname, :lastname, :username, :email, :password)', [
-            ':firstname' => $_POST['firstname'],
-            ':lastname' => $_POST['lastname'],
-            ':username' => $_POST['username'],
-            ':email' => $_POST['email'],
-            ':password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
-        ]);
-
-        $user = $db->query('select * from users where email = :email', [
-            ':email' => $_POST['email']
-        ])->findOrFail();
+        $user = (new User)->create([
+            'firstname' => $_POST['firstname'],
+            'lastname' => $_POST['lastname'],
+            'username' => $_POST['username'],
+            'email' => $_POST['email'],
+            'password' => password_hash($_POST['password'], PASSWORD_BCRYPT),
+        ])->where('email', '=', $_POST['email'])->findOrFail();
 
         (new Authenticator)->login($user);
 

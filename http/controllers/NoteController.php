@@ -2,9 +2,8 @@
 
 namespace http\controllers;
 
-use core\App;
+use models\Note;
 use core\Session;
-use core\Database;
 use http\forms\notes\StoreFormValidation;
 use http\forms\notes\UpdateFormValidation;
 
@@ -12,13 +11,7 @@ class NoteController {
 
     public function index() {
 
-        $db = App::resolve(Database::class);
-
-        $currentUserID = Session::user('id');
-
-        $notes = $db->query('select * from notes where user_id = :user', [
-            ":user" => $currentUserID
-        ])->get();
+        $notes = (new Note)->all();
 
         return view('notes/index', [
             'heading' => 'my notes',
@@ -28,11 +21,7 @@ class NoteController {
 
     public function show($id) {
 
-        $db = App::resolve(Database::class);
-
-        $note = $db->query('select * from notes where id = :id', [
-            'id' => $id
-        ])->findOrFail();
+        $note = (new Note)->findOrFail($id);
 
         $currentUserID = Session::user('id');
 
@@ -57,13 +46,11 @@ class NoteController {
             'body' => $_POST['body']
         ]);
 
-        $db = App::resolve(Database::class);
-
         $currentUserID = Session::user('id');
 
-        $db->query("insert into notes(body, user_id) values(:body,:user)", [
-            ":user" => $currentUserID,
-            ":body" => strip_tags($_POST['body'])
+        (new Note)->create([
+            'user_id' => $currentUserID,
+            'body' => $_POST['body']
         ]);
 
         return redirect('/notes');
@@ -71,13 +58,9 @@ class NoteController {
 
     public function edit($id) {
 
-        $db = App::resolve(Database::class);
-
+        $note = (new Note)->findOrFail($id);
+            
         $currentUserID = Session::user('id');
-
-        $note = $db->query("select * from notes where id = :id", [
-            ":id" => $id
-        ])->findOrFail();
 
         authorize($note['user_id'] == $currentUserID);
 
@@ -89,27 +72,18 @@ class NoteController {
 
     public function update() {
 
-        $db = App::resolve(Database::class);
-
-        $id = $_POST['id'];
-
-        $body = $_POST['body'];
-
         $form = UpdateFormValidation::validate([
-            'body' => $body
+            'body' => $_POST['body']
         ]);
+
+        $note = (new Note)->findOrFail($_POST['id']);
 
         $currentUserID = Session::user('id');
 
-        $note = $db->query('select * from notes where id = :id', [
-            ':id' => $id
-        ])->findOrFail();
-
         authorize($note['user_id'] == $currentUserID);
 
-        $db->query("update notes set body = :body where id = :id", [
-            ":body" => $body,
-            ":id" => $id
+        (new Note)->update($note['id'], [
+            'body' => $_POST['body']
         ]);
 
         return redirect('/notes');
@@ -117,21 +91,13 @@ class NoteController {
 
     public function destroy() {
 
-        $db = App::resolve(Database::class);
-
-        $id = $_POST['id'];
+        $note = (new Note)->findOrFail($_POST['id']);
 
         $currentUserID = Session::user('id');
 
-        $note = $db->query('select * from notes where id = :id', [
-            ':id' => $id
-        ])->findOrFail();
-
         authorize($note['user_id'] == $currentUserID);
 
-        $db->query('delete from notes where id = :id', [
-            ':id' => $id
-        ]);
+        (new Note)->destroy($note['id']);
 
         return redirect('/notes');
     }
