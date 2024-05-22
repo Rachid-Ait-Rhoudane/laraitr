@@ -3,6 +3,7 @@
 namespace http\controllers;
 
 use core\App;
+use core\Session;
 use core\Database;
 use http\forms\notes\StoreFormValidation;
 use http\forms\notes\UpdateFormValidation;
@@ -13,7 +14,7 @@ class NoteController {
 
         $db = App::resolve(Database::class);
 
-        $currentUserID = 1;
+        $currentUserID = Session::user('id');
 
         $notes = $db->query('select * from notes where user_id = :user', [
             ":user" => $currentUserID
@@ -33,7 +34,7 @@ class NoteController {
             'id' => $id
         ])->findOrFail();
 
-        $currentUserID = 1;
+        $currentUserID = Session::user('id');
 
         authorize($note['user_id'] == $currentUserID);
 
@@ -58,7 +59,7 @@ class NoteController {
 
         $db = App::resolve(Database::class);
 
-        $currentUserID = 1;
+        $currentUserID = Session::user('id');
 
         $db->query("insert into notes(body, user_id) values(:body,:user)", [
             ":user" => $currentUserID,
@@ -72,7 +73,7 @@ class NoteController {
 
         $db = App::resolve(Database::class);
 
-        $currentUserID = 1;
+        $currentUserID = Session::user('id');
 
         $note = $db->query("select * from notes where id = :id", [
             ":id" => $id
@@ -98,7 +99,7 @@ class NoteController {
             'body' => $body
         ]);
 
-        $currentUserID = 1;
+        $currentUserID = Session::user('id');
 
         $note = $db->query('select * from notes where id = :id', [
             ':id' => $id
@@ -120,7 +121,7 @@ class NoteController {
 
         $id = $_POST['id'];
 
-        $currentUserID = 1;
+        $currentUserID = Session::user('id');
 
         $note = $db->query('select * from notes where id = :id', [
             ':id' => $id

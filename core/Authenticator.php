@@ -23,11 +23,11 @@ class Authenticator {
 
         session_regenerate_id(true);
         
-        $_SESSION['user'] = [
+        Session::put('user', [
             'id' => $user['id'],
             'username' => $user['username'],
             'email' => $user['email']
-        ];
+        ]);
     }
     
     public function logout() {

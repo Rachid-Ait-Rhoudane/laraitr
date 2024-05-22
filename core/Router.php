@@ -41,11 +41,11 @@ class Router {
 
     public function route($uri, $method) {
 
-        if(array_key_exists($method . "_" . $uri, $this->routes)) {
+        if(array_key_exists(strtoupper($method) . "_" . $uri, $this->routes)) {
 
-            if($this->routes[$method . "_" . $uri]['method'] === strtoupper($method)) {
+            if($this->routes[strtoupper($method) . "_" . $uri]['method'] === strtoupper($method)) {
 
-                return $this->resolve($this->routes[$method . "_" . $uri]);
+                return $this->resolve($this->routes[strtoupper($method) . "_" . $uri]);
             }
         }
 

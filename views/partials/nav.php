@@ -10,7 +10,7 @@
                         <!-- Current: "bg-gray-900 text-white", Default: "text-gray-300 hover:bg-gray-700 hover:text-white" -->
                         <a href="/" class="<?= urlIs('/') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Home</a>
                         <a href="/about" class="<?= urlIs('/about') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">About</a>
-                        <?php if(isset($_SESSION['user'])): ?>
+                        <?php if(\core\Session::has('user')): ?>
                             <a href="/notes" class="<?= urlIs('/notes') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium" aria-current="page">Notes</a>
                         <?php endif; ?>
                         <a href="/contact" class="<?= urlIs('/contact') ? 'bg-gray-900 text-white' : 'text-gray-300 hover:bg-gray-700 hover:text-white' ?> rounded-md px-3 py-2 text-sm font-medium">Contact</a>
@@ -20,7 +20,7 @@
             <div class="hidden md:block">
                 <div class="ml-4 flex items-center md:ml-6">
 
-                    <?php if(isset($_SESSION['user'])): ?>
+                    <?php if(\core\Session::has('user')): ?>
 
                         <!-- Profile dropdown -->
                         <div class="relative mx-3">

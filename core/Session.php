@@ -19,6 +19,11 @@ class Session {
         return $_SESSION['__flash'][$key] ?? $_SESSION[$key] ?? $default;
     }
 
+    public static function user($key) {
+
+        return static::get('user')[$key] ?? null;
+    }
+
     public static function flash($key, $value) {
 
         $_SESSION['__flash'][$key] = $value;

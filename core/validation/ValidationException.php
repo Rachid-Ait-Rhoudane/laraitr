@@ -12,8 +12,6 @@ class ValidationException extends \Exception {
 
         $instance = new static;
 
-        // dd($instance);
-
         $instance->errors = $errors;
 
         $instance->oldValues = $oldValues;
