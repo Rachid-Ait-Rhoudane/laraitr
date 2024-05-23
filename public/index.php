@@ -8,12 +8,9 @@ use core\validation\ValidationException;
 
 const BASE_PATH = __DIR__ . "/../";
 
-require_once BASE_PATH . "core/functions.php";
+require_once BASE_PATH  . "vendor/autoload.php";
 
-spl_autoload_register(function($class) {
-    $class = str_replace('\\', DIRECTORY_SEPARATOR, base_path("{$class}.php"));
-    require_once $class;
-});
+require_once BASE_PATH . "core/functions.php";
 
 require base_path("bootstrap.php");
 

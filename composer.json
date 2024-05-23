@@ -1,0 +1,12 @@
+{
+    "name": "rachidaitrhoudane/laraitr",
+    "description": "A PHP MVC Framework inspired by Laravel",
+    "require": {},
+    "autoload": {
+        "psr-4": {
+            "core\\": "core/",
+            "http\\": "http/",
+            "models\\": "models/"
+        }
+    }
+}
